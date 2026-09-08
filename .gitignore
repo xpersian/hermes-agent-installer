@@ -1,0 +1,9 @@
+.env
+*.env
+.env.*
+backups/
+*.backup
+*.tar
+*.tar.gz
+hermes-data/
+.DS_Store
