@@ -179,10 +179,10 @@ ensure_docker() {
 
   log "Docker not found. Installing Docker Engine from Docker's official repository."
   [[ -r /etc/os-release ]] || die "Cannot identify the operating system."
-  . /etc/os-release
-  distro="${ID:-}"
-  codename="${VERSION_CODENAME:-}"
+  distro="$(awk -F= '$1 == "ID" {gsub(/\"/, "", $2); print $2}' /etc/os-release)"
+  codename="$(awk -F= '$1 == "VERSION_CODENAME" {gsub(/\"/, "", $2); print $2}' /etc/os-release)"
   [[ "$distro" == "ubuntu" || "$distro" == "debian" ]] || die "Automatic Docker installation supports Ubuntu and Debian only."
+  [[ -n "$codename" ]] || die "Could not determine the distribution codename."
 
   apt-get update -y
   DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl
